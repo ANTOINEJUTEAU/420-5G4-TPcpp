@@ -8,7 +8,8 @@ using namespace std;
 // Constructor
 Library::Library() {}
 
-bool Library::addBook(const Book& book) {
+bool Library::addBook(const Book &book)
+{
 
     bool unique = true;
 
@@ -208,11 +209,29 @@ void Library::displayAllBooks()
         return;
     }
 
+    vector<const Book *> livresTries;
+
+    for (const auto &livre : books)
+    {
+        livresTries.push_back(livre.get());
+    }
+
+    sort(livresTries.begin(), livresTries.end(),
+         [](const Book *a, const Book *b)
+         {
+             if (a->getTitle() == b->getTitle())
+             {
+                 return a->getAuthor() < b->getAuthor();
+             }
+
+             return a->getTitle() < b->getTitle();
+         });
+
     cout << "\n=== TOUS LES LIVRES ===\n";
-    for (size_t i = 0; i < books.size(); ++i)
+    for (size_t i = 0; i < livresTries.size(); ++i)
     {
         cout << "\nLivre " << (i + 1) << " :\n";
-        cout << books[i]->toString() << "\n";
+        cout << livresTries[i]->toString() << "\n";
         cout << "-------------------------\n";
     }
 }
@@ -228,11 +247,29 @@ void Library::displayAvailableBooks()
         return;
     }
 
+    vector<const Book *> livresDispoTries;
+
+    for (const auto &livre : available)
+    {
+        livresDispoTries.push_back(livre);
+    }
+
+    sort(livresDispoTries.begin(), livresDispoTries.end(),
+         [](const Book *a, const Book *b)
+         {
+             if (a->getTitle() == b->getTitle())
+             {
+                 return a->getAuthor() < b->getAuthor();
+             }
+
+             return a->getTitle() < b->getTitle();
+         });
+
     cout << "\n=== LIVRES DISPONIBLES ===\n";
-    for (size_t i = 0; i < available.size(); ++i)
+    for (size_t i = 0; i < livresDispoTries.size(); ++i)
     {
         cout << "\nLivre " << (i + 1) << " :\n";
-        cout << available[i]->toString() << "\n";
+        cout << livresDispoTries[i]->toString() << "\n";
         cout << "---------------------------\n";
     }
 }
