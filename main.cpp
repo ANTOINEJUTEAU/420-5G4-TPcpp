@@ -125,15 +125,15 @@ int main(int argc, char *argv[])
             string author = getInput("Entrez l'auteur du livre : ");
             string isbn = getInput("Entrez l'ISBN du livre : ");
 
-            if (library.findBookByISBN(isbn))
+            Book newBook(title, author, isbn);
+
+            if (library.addBook(newBook))
             {
-                cout << "Erreur : Un livre avec l'ISBN " << isbn << " existe déjà.\n";
+                cout << "Livre ajouté avec succès !\n";
             }
             else
             {
-                Book newBook(title, author, isbn);
-                library.addBook(newBook);
-                cout << "Livre ajouté avec succès !\n";
+                cout << "Erreur : ce livre existe déjà dans la bibliothèque.\n";
             }
             pauseForInput();
             break;

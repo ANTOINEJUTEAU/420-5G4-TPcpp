@@ -20,7 +20,7 @@ public:
     ~Library() = default;
     
     // Book management
-    void addBook(const Book& book);
+    bool addBook(const Book& book);
     bool removeBook(const string& isbn);
     Book* findBookByISBN(const string& isbn);
     vector<Book*> searchBooksByTitle(const string& title);
