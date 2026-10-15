@@ -2,12 +2,18 @@
 #include <iostream>
 #include <filesystem>
 #include "filemanager.h"
+#include <ctime>
+#include <iomanip>
 
 using namespace std;
 
 // Constructor
 FileManager::FileManager(const string& booksFile, const string& usersFile)
-    : booksFileName(booksFile), usersFileName(usersFile) {}
+    : booksFileName(booksFile),
+      usersFileName(usersFile),
+      journalFileName(
+          (filesystem::path(booksFile).parent_path() / "journal.txt").string()
+      ) {}
 
 // Save all library data
 bool FileManager::saveLibraryData(Library& library) {
@@ -120,4 +126,32 @@ void FileManager::createBackup() {
     }
     
     cout << "Fichiers de sauvegarde créés.\n";
+}
+
+// Journal d'activité
+void FileManager::enregistrerActivite(const string& activite)
+{
+    if (booksFileName.empty())
+    {
+        return;
+    }
+
+    ofstream fichier(journalFileName, ios::app);
+
+    if (!fichier.is_open())
+    {
+        cout << "Erreur : impossible d'ouvrir le journal d'activités.\n";
+        return;
+    }
+
+    time_t maintenant = time(nullptr);
+    tm* dateHeure = localtime(&maintenant);
+
+    if (dateHeure != nullptr)
+    {
+        fichier << put_time(dateHeure, "%Y-%m-%d %H:%M:%S")
+                << " - " << activite << "\n";
+    }
+
+    fichier.close();
 }

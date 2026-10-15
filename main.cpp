@@ -130,6 +130,9 @@ int main(int argc, char *argv[])
             if (library.addBook(newBook))
             {
                 cout << "Livre ajouté avec succès !\n";
+
+                fileManager.enregistrerActivite(
+                    "[AJOUT LIVRE] " + title + " - " + author + " - " + isbn);
             }
             else
             {
@@ -146,6 +149,8 @@ int main(int argc, char *argv[])
             if (library.removeBook(isbn))
             {
                 cout << "Livre supprimé avec succès !\n";
+                fileManager.enregistrerActivite(
+                    "[SUPPRESSION LIVRE] ISBN : " + isbn);
             }
             else
             {
@@ -225,6 +230,9 @@ int main(int argc, char *argv[])
                 User newUser(name, userId);
                 library.addUser(newUser);
                 cout << "Utilisateur ajouté avec succès !\n";
+
+                fileManager.enregistrerActivite(
+                    "[AJOUT UTILISATEUR] " + name + " - ID : " + userId);
             }
             pauseForInput();
             break;
@@ -243,6 +251,8 @@ int main(int argc, char *argv[])
             if (library.checkOutBook(isbn, userId))
             {
                 cout << "Livre emprunté avec succès !\n";
+                fileManager.enregistrerActivite(
+                    "[EMPRUNT] ISBN : " + isbn + " - Utilisateur : " + userId);
             }
             else
             {
@@ -259,6 +269,9 @@ int main(int argc, char *argv[])
             if (library.returnBook(isbn))
             {
                 cout << "Livre retourné avec succès !\n";
+
+                fileManager.enregistrerActivite(
+                    "[RETOUR] ISBN : " + isbn);
             }
             else
             {
@@ -284,6 +297,9 @@ int main(int argc, char *argv[])
             if (fileManager.saveLibraryData(library))
             {
                 cout << "Données de la bibliothèque sauvegardées avec succès !\n";
+
+                fileManager.enregistrerActivite(
+                    "[SAUVEGARDE] Donnees de la bibliotheque sauvegardees");
             }
             else
             {
@@ -296,6 +312,9 @@ int main(int argc, char *argv[])
         case 13:
         { // Create Backup
             fileManager.createBackup();
+
+            fileManager.enregistrerActivite(
+                "[BACKUP] Demande de creation des fichiers de sauvegarde");
             pauseForInput();
             break;
         }
@@ -308,6 +327,8 @@ int main(int argc, char *argv[])
                 if (fileManager.saveLibraryData(library))
                 {
                     cout << "Données sauvegardées avec succès !\n";
+                    fileManager.enregistrerActivite(
+                        "[SAUVEGARDE AUTO] Donnees sauvegardees a la fermeture");
                 }
                 else
                 {
